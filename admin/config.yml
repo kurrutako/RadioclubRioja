@@ -2,9 +2,6 @@ backend:
   name: github
   repo: kurrutako/RadioclubRioja
   branch: main
-  auth_type: implicit
-  app_id: Ov23linS46NlIRwcChaD
-  site_domain: ea1rcr.netlify.app
 
 media_folder: "images"
 public_folder: "/images"
