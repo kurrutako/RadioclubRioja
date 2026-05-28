@@ -1,0 +1,11 @@
+{
+  "name": "radioclubrioja",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "tinacms dev -c \"npx serve .\"",
+    "build": "tinacms build"
+  },
+  "dependencies": {
+    "tinacms": "^2.0.0"
+  }
+}
