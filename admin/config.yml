@@ -1,7 +1,5 @@
 backend:
-  name: github
-  repo: kurrutako/RadioclubRioja
-  branch: main
+  name: git-gateway
 
 media_folder: "images"
 public_folder: "/images"
