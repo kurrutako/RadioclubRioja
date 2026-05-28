@@ -2,7 +2,7 @@ backend:
   name: github
   repo: kurrutako/RadioclubRioja
   branch: main
-  site_domain: ea1rcr.qzz.io
+  auth_type: implicit
 
 media_folder: "images"
 public_folder: "/images"
