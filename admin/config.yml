@@ -1,0 +1,21 @@
+backend:
+  name: github
+  repo: kurrutako/RadioclubRioja
+  branch: main
+  site_domain: ea1rcr.qzz.io
+
+media_folder: "images"
+public_folder: "/images"
+
+collections:
+  - name: "noticias"
+    label: "Noticias"
+    folder: "noticias"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    fields:
+      - { label: "Título", name: "title", widget: "string" }
+      - { label: "Fecha", name: "date", widget: "datetime" }
+      - { label: "Autor", name: "author", widget: "string" }
+      - { label: "Imagen destacada", name: "image", widget: "image", required: false }
+      - { label: "Contenido", name: "body", widget: "markdown" }
