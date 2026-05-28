@@ -3,6 +3,7 @@ backend:
   repo: kurrutako/RadioclubRioja
   branch: main
   auth_type: implicit
+  app_id: Ov23linS46NlIRwcChaD
 
 media_folder: "images"
 public_folder: "/images"
