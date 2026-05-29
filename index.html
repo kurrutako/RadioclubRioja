@@ -257,16 +257,20 @@
             document.getElementById('news-date').textContent = fmt;
             document.getElementById('news-author').textContent = meta.author || 'EA1RCR';
             document.getElementById('news-title').textContent = meta.title || 'Sin título';
-            // Clean body: remove markdown, strip empty/noise lines, take content paragraphs
-            const cleanLines = body.split('\n')
-                .map(l => l.trim())
-                .filter(l => l.length > 0 && !l.startsWith('- ') && !l.startsWith('* '))
-                .join(' ')
-                .replace(/[*_#`~\[\]]/g, '')
-                .replace(/\s+/g, ' ')
-                .trim();
-            const truncated = cleanLines.slice(0, 200) + (cleanLines.length > 200 ? '…' : '');
-            document.getElementById('news-excerpt').textContent = truncated || 'Sin contenido disponible.';
+            // Clean body: convert markdown to HTML, truncate safely
+            function mdToHtmlExcerpt(text) {
+                if (!text) return 'Sin contenido.';
+                text = text.replace(/\[([^\]]+)\]\((https?:\/\/[^\)]+)\)/g, '<a href="$2" target="_blank" class="text-red-600 hover:underline">$1</a>');
+                text = text.replace(/(https?:\/\/[^\s\)]+)/g, '<a href="$1" target="_blank" class="text-red-600 hover:underline">$1</a>');
+                text = text.replace(/\*\*([^*]+)\*\*/g, '<strong>$1</strong>');
+                text = text.replace(/\n+/g, ' ').replace(/\s+/g, ' ').trim();
+                // Remove list markers
+                text = text.replace(/- /g, '• ');
+                return text;
+            }
+            const excerptHtml = mdToHtmlExcerpt(body);
+            const truncated = excerptHtml.length > 200 ? excerptHtml.slice(0, 200) + '…' : excerptHtml;
+            document.getElementById('news-excerpt').innerHTML = truncated;
             
             // Mostrar imagen si existe
             if (meta.image) {
