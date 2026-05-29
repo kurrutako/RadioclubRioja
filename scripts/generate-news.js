@@ -3,7 +3,10 @@ const path = require('path');
 const matter = require('gray-matter');
 
 const noticiasDir = path.join(__dirname, '..', 'content', 'noticias');
-const outputFile = path.join(__dirname, '..', 'data', 'noticias.json');
+const dataDir = path.join(__dirname, '..', 'data');
+const outputFile = path.join(dataDir, 'noticias.json');
+
+if (!fs.existsSync(dataDir)) fs.mkdirSync(dataDir, { recursive: true });
 
 const files = fs.readdirSync(noticiasDir).filter(f => f.endsWith('.md'));
 
@@ -11,22 +14,25 @@ const noticias = files.map(file => {
   const content = fs.readFileSync(path.join(noticiasDir, file), 'utf8');
   const { data, content: body } = matter(content);
 
-  const bodyHtml = body
-    .replace(/^## (.+)$/gm, '<h3>$1</h3>')
-    .replace(/^# (.+)$/gm, '<h2>$1</h2>')
-    .replace(/^- (.+)$/gm, '<li>$1</li>')
-    .replace(/\n\n/g, '</p><p>')
-    .replace(/^/, '<p>')
-    .replace(/$/, '</p>')
-    .replace(/<li>/g, '<ul class="list-disc list-inside space-y-1 mt-2"><li>')
-    .replace(/<\/li>\n/g, '</li></ul>');
+  const lines = body.trim().split('\n');
+  const bodyHtml = lines.map(line => {
+    if (line.startsWith('- ')) return `<li>${line.slice(2)}</li>`;
+    if (line.trim() === '') return '';
+    if (line.startsWith('## ')) return `<h3>${line.slice(3)}</h3>`;
+    if (line.startsWith('# ')) return `<h2>${line.slice(2)}</h2>`;
+    return `<p>${line}</p>`;
+  }).filter(l => l !== '').join('\n');
+
+  const bodyWithLists = bodyHtml.includes('<li>')
+    ? bodyHtml.replace(/(<li>.*<\/li>)/gs, '<ul class="list-disc list-inside space-y-1 mt-2">$1</ul>')
+    : bodyHtml;
 
   return {
     title: data.title || file.replace('.md', ''),
     date: data.date || '',
     author: data.author || 'EA1RCR',
     image: data.image || '',
-    body: bodyHtml
+    body: bodyWithLists
   };
 }).sort((a, b) => new Date(b.date) - new Date(a.date));
 
