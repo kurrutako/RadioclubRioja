@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <title>Noticias • EA1RCR</title>
-    <link rel="stylesheet" href="styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <style>
         body { font-family: Inter, system-ui, sans-serif; }
@@ -73,50 +73,6 @@
     </footer>
 
     <script>
-    // Parsea frontmatter YAML simple de un string Markdown
-    function parseFrontmatter(raw) {
-        const meta = {};
-        const lines = raw.split('\n');
-        let bodyStart = 0;
-        let fmStart = -1;
-        for (let i = 0; i < lines.length; i++) {
-            if (lines[i].trim() === '---') { fmStart = i; break; }
-        }
-        if (fmStart >= 0) {
-            for (let i = fmStart + 1; i < lines.length; i++) {
-                if (lines[i].trim() === '---') { bodyStart = i + 1; break; }
-                const m = lines[i].match(/^(\w+):\s*(.*)$/);
-                if (m) meta[m[1]] = m[2];
-            }
-        }
-        const body = lines.slice(bodyStart).join('\n').trim();
-        return { meta, body };
-    }
-
-    // Convierte Markdown básico a HTML
-    function mdToHtml(md) {
-        let html = md
-            .replace(/^### (.+)$/gm, '<h3 class="text-lg font-semibold mt-4 mb-2">$1</h3>')
-            .replace(/^## (.+)$/gm, '<h2 class="text-xl font-semibold mt-5 mb-2">$1</h2>')
-            .replace(/^# (.+)$/gm, '<h1 class="text-2xl font-semibold mt-6 mb-3">$1</h1>')
-            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
-            .replace(/\*(.+?)\*/g, '<em>$1</em>')
-            .replace(/`(.+?)`/g, '<code class="bg-slate-100 px-1 rounded text-sm">$1</code>')
-            .replace(/^\- (.+)$/gm, '<li class="ml-4 list-disc">$1</li>')
-            .replace(/^\* (.+)$/gm, '<li class="ml-4 list-disc">$1</li>')
-            .replace(/\n\n/g, '</p><p class="mt-3">');
-        // Wrap in paragraph if not already wrapped
-        if (!html.startsWith('<')) html = '<p>' + html;
-        if (!html.endsWith('>')) html += '</p>';
-        return html;
-    }
-
-    function parseDateLocal(dateStr) {
-        if (!dateStr) return new Date();
-        const [y, m, d] = dateStr.split('-').map(Number);
-        return new Date(y, m - 1, d);
-    }
-
     async function loadNoticias() {
         const GITHUB_API = 'https://api.github.com/repos/kurrutako/RadioclubRioja/contents/content/noticias';
         const container = document.getElementById('noticias-container');
@@ -136,17 +92,31 @@
                 return;
             }
 
-            // Cargar cada noticia
             const noticias = await Promise.all(mdFiles.map(async f => {
                 const r = await fetch(f.download_url);
                 const raw = await r.text();
-                const { meta, body } = parseFrontmatter(raw);
+                const meta = {};
+                const lines = raw.split('\n');
+                let bodyStart = 0;
+                let fmStart = -1;
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].trim() === '---') { fmStart = i; break; }
+                }
+                if (fmStart >= 0) {
+                    for (let i = fmStart + 1; i < lines.length; i++) {
+                        if (lines[i].trim() === '---') { bodyStart = i + 1; break; }
+                        const m = lines[i].match(/^(\w+):\s*(.*)$/);
+                        if (m) meta[m[1]] = m[2];
+                    }
+                }
+                const body = lines.slice(bodyStart).join('\n').trim();
                 return { ...meta, body, slug: f.name.replace('.md', '') };
             }));
 
             container.innerHTML = noticias.map(n => {
-                const d = parseDateLocal(n.date);
-                const fmt = d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+                const [y, m, d] = (n.date || '').split('-').map(Number);
+                const date = n.date ? new Date(y, m - 1, d) : new Date();
+                const fmt = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
                 return `
                 <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
                     <div class="p-8">
@@ -156,7 +126,9 @@
                             <span>${n.author || 'EA1RCR'}</span>
                         </div>
                         <h2 class="text-2xl font-semibold tracking-tight">${n.title || 'Sin título'}</h2>
-                        <div class="mt-4 text-slate-700">${mdToHtml(n.body)}</div>
+                        <div class="mt-4 text-slate-700">
+                            <p>${n.body}</p>
+                        </div>
                     </div>
                 </article>`;
             }).join('');
