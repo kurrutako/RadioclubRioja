@@ -327,13 +327,17 @@
                 const raw = await r.text();
                 const meta = {};
                 const lines = raw.split('\n');
+                let fmStart = -1;
                 let bodyStart = 0;
                 for (let i = 0; i < lines.length; i++) {
                     if (lines[i].trim() === '---') {
-                        if (bodyStart === 0) { bodyStart = i + 1; continue; }
-                        else { bodyStart = i + 1; break; }
+                        if (fmStart === -1) { fmStart = i; continue; }
+                        bodyStart = i + 1;
+                        break;
                     }
-                    if (bodyStart === 0 || lines.slice(bodyStart).join('').trim() === '') {
+                }
+                if (fmStart >= 0 && bodyStart > 0) {
+                    for (let i = fmStart + 1; i < bodyStart - 1; i++) {
                         const m = lines[i].match(/^(\w+):\s*(.*)$/);
                         if (m) meta[m[1]] = m[2];
                     }
