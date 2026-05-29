@@ -1,6 +1,3 @@
 [build]
-  command = "npm run build"
+  command = "node scripts/generate-news.js"
   publish = "."
-
-[build.environment]
-  NODE_VERSION = "18"
