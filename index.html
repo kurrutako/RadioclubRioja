@@ -108,18 +108,23 @@
                     Última noticia
                 </h2>
                 <div id="latest-news" class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
-                    <div class="p-8">
-                        <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
-                            <time id="news-date">Cargando...</time>
-                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                            <span id="news-author">—</span>
+                    <div class="grid md:grid-cols-2 gap-0">
+                        <div class="p-8">
+                            <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
+                                <time id="news-date">Cargando...</time>
+                                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                <span id="news-author">—</span>
+                            </div>
+                            <h3 id="news-title" class="text-2xl font-semibold tracking-tight text-slate-900">—</h3>
+                            <div id="news-excerpt" class="mt-3 text-slate-700">—</div>
+                            <div class="mt-6">
+                                <a href="noticias.html" class="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1">
+                                    Ver todas las noticias <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
                         </div>
-                        <h3 id="news-title" class="text-2xl font-semibold tracking-tight text-slate-900">—</h3>
-                        <div id="news-excerpt" class="mt-3 text-slate-700">—</div>
-                        <div class="mt-6">
-                            <a href="noticias.html" class="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1">
-                                Ver todas las noticias <i class="fa-solid fa-arrow-right text-xs"></i>
-                            </a>
+                        <div id="news-image-container" class="hidden md:flex items-center justify-center bg-slate-100">
+                            <!-- La imagen se insertará aquí con JS -->
                         </div>
                     </div>
                 </div>
@@ -229,6 +234,27 @@
                 .trim();
             const truncated = cleanLines.slice(0, 200) + (cleanLines.length > 200 ? '…' : '');
             document.getElementById('news-excerpt').textContent = truncated || 'Sin contenido disponible.';
+            
+            // Mostrar imagen si existe
+            if (meta.image) {
+                const imgContainer = document.getElementById('news-image-container');
+                const img = document.createElement('img');
+                img.src = meta.image;
+                img.alt = meta.title || 'Imagen de la noticia';
+                img.className = 'w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity';
+                img.onclick = function() {
+                    const lightbox = document.createElement('div');
+                    lightbox.className = 'fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4';
+                    lightbox.onclick = function() { document.body.removeChild(lightbox); };
+                    const lightboxImg = document.createElement('img');
+                    lightboxImg.src = meta.image;
+                    lightboxImg.className = 'max-w-full max-h-full object-contain';
+                    lightbox.appendChild(lightboxImg);
+                    document.body.appendChild(lightbox);
+                };
+                imgContainer.appendChild(img);
+                imgContainer.classList.remove('hidden');
+            }
         } catch (e) {
             document.getElementById('latest-news').style.display = 'none';
         }

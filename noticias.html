@@ -117,18 +117,25 @@
                 const [y, m, d] = (n.date || '').split('-').map(Number);
                 const date = n.date ? new Date(y, m - 1, d) : new Date();
                 const fmt = date.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+                const imgHtml = n.image ? `
+                    <div class="md:w-1/2">
+                        <img src="${n.image}" alt="${n.title || 'Imagen'}" class="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" onclick="openLightbox('${n.image}')">
+                    </div>` : '';
                 return `
                 <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
-                    <div class="p-8">
-                        <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
-                            <time>${fmt}</time>
-                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                            <span>${n.author || 'EA1RCR'}</span>
+                    <div class="flex flex-col md:flex-row">
+                        <div class="${n.image ? 'md:w-1/2' : 'w-full'} p-8">
+                            <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
+                                <time>${fmt}</time>
+                                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                <span>${n.author || 'EA1RCR'}</span>
+                            </div>
+                            <h2 class="text-2xl font-semibold tracking-tight">${n.title || 'Sin título'}</h2>
+                            <div class="mt-4 text-slate-700">
+                                <p>${n.body}</p>
+                            </div>
                         </div>
-                        <h2 class="text-2xl font-semibold tracking-tight">${n.title || 'Sin título'}</h2>
-                        <div class="mt-4 text-slate-700">
-                            <p>${n.body}</p>
-                        </div>
+                        ${imgHtml}
                     </div>
                 </article>`;
             }).join('');
@@ -138,6 +145,17 @@
             noNoticias.classList.remove('hidden');
             console.error('Error cargando noticias:', e);
         }
+    }
+
+    function openLightbox(imgSrc) {
+        const lightbox = document.createElement('div');
+        lightbox.className = 'fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 cursor-pointer';
+        lightbox.onclick = function() { document.body.removeChild(lightbox); };
+        const img = document.createElement('img');
+        img.src = imgSrc;
+        img.className = 'max-w-full max-h-full object-contain';
+        lightbox.appendChild(img);
+        document.body.appendChild(lightbox);
     }
 
     loadNoticias();
