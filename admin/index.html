@@ -4,40 +4,9 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Content Manager | EA1RCR</title>
-    <style>
-      body { margin: 0; }
-    </style>
   </head>
   <body>
-    <script src="https://unpkg.com/@staticcms/app@^4.0.0/dist/static-cms-app.js"></script>
-    <script>
-      const { CMS } = window.StaticCmsApp;
-
-      CMS.init({
-        config: {
-          backend: {
-            name: 'git-gateway',
-          },
-          media_folder: 'images',
-          public_folder: '/images',
-          collections: [
-            {
-              name: 'noticias',
-              label: 'Noticias',
-              folder: 'noticias',
-              create: true,
-              slug: '{{year}}-{{month}}-{{day}}-{{slug}}',
-              fields: [
-                { label: 'Título', name: 'title', widget: 'string' },
-                { label: 'Fecha', name: 'date', widget: 'datetime' },
-                { label: 'Autor', name: 'author', widget: 'string' },
-                { label: 'Imagen destacada', name: 'image', widget: 'image', required: false },
-                { label: 'Contenido', name: 'body', widget: 'markdown' },
-              ],
-            },
-          ],
-        },
-      });
-    </script>
+    <!-- Decap CMS -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
   </body>
 </html>
