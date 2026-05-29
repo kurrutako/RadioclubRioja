@@ -9,7 +9,6 @@
     <style>
         body { font-family: Inter, system-ui, sans-serif; }
         .heading-font { font-family: "Space Grotesk", Inter, sans-serif; font-weight: 600; }
-        .hero-bg { background: linear-gradient(135deg, #0f172a 0%, #1e2937 100%); }
         .nav-active { color: #c8102e; font-weight: 600; }
     </style>
 </head>
@@ -18,7 +17,6 @@
     <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
         <div class="max-w-screen-xl mx-auto px-8 py-5 flex items-center justify-between">
             <div class="flex items-center gap-x-3">
-                <img src="logo.png" alt="EA1RCR" class="h-6 w-auto">
                 <img src="logo.png" alt="EA1RCR" class="h-10 w-auto">
                 <div>
                     <span class="font-semibold text-xl tracking-tight">EA1RCR</span>
@@ -37,24 +35,31 @@
         </div>
     </nav>
 
-    <!-- Hero -->
-    <header class="hero-bg text-white">
-        <div class="max-w-screen-xl mx-auto px-8 pt-16 pb-20">
-            <div class="max-w-2xl">
-                <div class="inline-flex items-center gap-x-2 bg-white/10 px-4 py-1.5 rounded-2xl mb-6">
-                    <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
-                    <span class="text-sm font-medium">Sección Territorial de URE en La Rioja</span>
-                </div>
-                <h1 class="text-6xl leading-none font-semibold tracking-tighter heading-font">
-                    Radio Club<br>Rioja
-                </h1>
-                <p class="mt-6 text-xl text-slate-300 max-w-md">
-                    Promoviendo la radioafición en La Rioja desde 1975
-                </p>
-                <div class="flex items-center gap-x-4 mt-10">
-                    <a href="el-club.html" class="px-8 py-4 bg-white text-slate-900 font-semibold rounded-2xl hover:bg-slate-100 transition-colors">Conócenos</a>
-                    <a href="cursos.html" class="px-8 py-4 border border-white/30 hover:bg-white/10 font-medium rounded-2xl transition-colors">Cursos EA</a>
-                </div>
+    <!-- Hero con banner -->
+    <header class="relative h-[520px] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('banner-hero.jpg')"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
+        
+        <div class="relative z-10 max-w-screen-xl mx-auto px-8 text-center text-white">
+            <div class="inline-flex items-center gap-x-2 bg-white/10 px-4 py-1.5 rounded-2xl mb-6">
+                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                <span class="text-sm font-medium">Sección Territorial de URE en La Rioja</span>
+            </div>
+            
+            <h1 class="text-6xl md:text-7xl font-semibold tracking-tighter heading-font">
+                Radio Club<br>Rioja
+            </h1>
+            <p class="mt-4 text-xl text-white/90 max-w-md mx-auto">
+                Promoviendo la radioafición en La Rioja desde 1975
+            </p>
+            
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+                <a href="el-club.html" class="px-8 py-4 bg-white text-slate-900 font-semibold rounded-2xl hover:bg-slate-100 transition-colors">
+                    Conócenos
+                </a>
+                <a href="cursos.html" class="px-8 py-4 border border-white/40 hover:bg-white/10 font-medium rounded-2xl transition-colors">
+                    Cursos EA
+                </a>
             </div>
         </div>
     </header>
@@ -82,32 +87,19 @@
             </div>
             <div class="flex gap-x-4">
                 <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center flex-shrink-0">
-                    <i class="fa-solid fa-users text-xl"></i>
+                    <i class="fa-solid fa-broadcast-tower text-xl"></i>
                 </div>
                 <div>
-                    <div class="font-semibold">+120 socios</div>
-                    <div class="text-slate-600 mt-1">Activos en La Rioja</div>
+                    <div class="font-semibold">Nodos activos</div>
+                    <div class="text-slate-600 mt-1">Meshtastic + LoRa APRS<br>Puerto de Herrera</div>
                 </div>
             </div>
         </div>
     </div>
 
-    <footer class="bg-slate-900 text-white mt-24">
-        <div class="max-w-screen-xl mx-auto px-8 py-12">
-            <div class="flex flex-col md:flex-row md:items-center justify-between gap-y-6">
-                <div class="flex items-center gap-x-3">
-                <img src="logo.png" alt="EA1RCR" class="h-6 w-auto">
-                    <img src="logo.png" alt="EA1RCR" class="h-9 brightness-0 invert">
-                    <div class="text-sm">
-                        <div class="font-medium">Radio Club Rioja</div>
-                        <div class="text-slate-400">EA1RCR • URE La Rioja</div>
-                    </div>
-                </div>
-                <div class="text-sm text-slate-400">
-                    © 2026 Radio Club Rioja
-                </div>
-            </div>
-        </div>
-    </footer>
+    <!-- Resto del contenido... -->
+    <div class="max-w-screen-xl mx-auto px-8 py-20 text-center text-slate-500">
+        <p>Contenido adicional de la página principal</p>
+    </div>
 </body>
 </html>
