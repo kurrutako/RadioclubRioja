@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Últimas noticias, actividades y novedades del Radio Club Rioja (EA1RCR) en La Rioja.">
+    <meta property="og:title" content="Noticias y Actualidad • EA1RCR">
+    <meta property="og:description" content="Últimas noticias, actividades y novedades del Radio Club Rioja (EA1RCR) en La Rioja.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ea1rcr.netlify.app/noticias.html">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>Noticias • EA1RCR</title>
+{{head}}
+@@ACTIVE_PAGE=5@@
+{{header}}
+
+    <!-- Hero con banner -->
+
+    <div class="max-w-screen-xl mx-auto px-8 py-16">
+        <div class="flex items-end justify-between mb-10">
+            <div>
+                <h1 class="text-5xl font-semibold tracking-tight">Noticias y Actualidad</h1>
+                <p class="mt-2 text-slate-600">Últimas actividades y novedades del Radio Club Rioja</p>
+            </div>
+            <a href="/admin/" class="hidden md:inline px-4 py-2 bg-red-600 text-white rounded-lg text-sm hover:bg-red-700 transition">
+                <i class="fa-solid fa-edit mr-2"></i>Gestionar
+            </a>
+        </div>
+
+        <!-- Lista de noticias -->
+        <div class="space-y-8" id="noticias-container">
+            <div class="text-center py-12 text-slate-500">
+                <i class="fa-solid fa-spinner fa-spin text-2xl mb-3 block"></i>
+                Cargando noticias…
+            </div>
+        </div>
+
+        <!-- Mensaje si no hay noticias -->
+        <div id="no-noticias" class="hidden mt-12 p-8 bg-white rounded-3xl border border-slate-200 text-center">
+            <i class="fa-solid fa-newspaper text-slate-300 text-4xl mb-4 block"></i>
+            <p class="text-slate-600">Próximamente más noticias y actualizaciones del club.</p>
+            <p class="text-sm text-slate-500 mt-2">Suscríbete a nuestro boletín para recibir las últimas novedades.</p>
+        </div>
+    </div>
+
+{{footer}}
+
+    <script>
+    async function loadNoticias() {
+        var container = document.getElementById('noticias-container');
+        var noNoticias = document.getElementById('no-noticias');
+
+        try {
+            var res = await fetch('data/noticias.json');
+            if (!res.ok) throw new Error('fetch failed');
+            var noticias = await res.json();
+
+            if (!noticias.length) {
+                container.innerHTML = '';
+                noNoticias.classList.remove('hidden');
+                return;
+            }
+
+            container.innerHTML = noticias.map(function(n) {
+                var parts = (n.date || '').split('-').map(Number);
+                var d = n.date ? new Date(parts[0], parts[1] - 1, parts[2]) : new Date();
+                var fmt = d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+                var imgHtml = n.image ? '<div class="md:w-1/2"><img src="' + n.image + '" alt="' + (n.title || 'Imagen') + '" class="w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity" onclick="openLightbox(\'' + n.image + '\')"></div>' : '';
+                return '<article class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">' +
+                    '<div class="flex flex-col md:flex-row">' +
+                    '<div class="' + (n.image ? 'md:w-1/2' : 'w-full') + ' p-8">' +
+                    '<div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">' +
+                    '<time>' + fmt + '</time>' +
+                    '<span class="w-1 h-1 bg-slate-300 rounded-full"></span>' +
+                    '<span>' + (n.author || 'EA1RCR') + '</span>' +
+                    '</div>' +
+                    '<h2 class="text-2xl font-semibold tracking-tight">' + (n.title || 'Sin título') + '</h2>' +
+                    '<div class="mt-4 text-slate-700">' + n.body + '</div>' +
+                    '</div>' + imgHtml +
+                    '</div>' +
+                    '</article>';
+            }).join('');
+
+        } catch (e) {
+            container.innerHTML = '<div class="text-center py-12"><i class="fa-solid fa-triangle-exclamation text-amber-500 text-4xl mb-4 block"></i><p class="text-slate-600 text-lg">No se pudieron cargar las noticias.</p><p class="text-sm text-slate-500 mt-2">Puede ser un problema de conexión. <button onclick="loadNoticias()" class="text-red-600 underline hover:text-red-700 font-medium">Reintentar</button></p></div>';
+            noNoticias.classList.add('hidden');
+            console.error('Error cargando noticias:', e);
+        }
+    }
+
+    function openLightbox(imgSrc) {
+        var lb = document.createElement('div');
+        lb.className = 'fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 cursor-pointer';
+        lb.onclick = function() { document.body.removeChild(lb); };
+        var img = document.createElement('img');
+        img.src = imgSrc;
+        img.className = 'max-w-full max-h-full object-contain';
+        lb.appendChild(img);
+        document.body.appendChild(lb);
+    }
+
+    loadNoticias();
+    </script>
+</body>
+</html>

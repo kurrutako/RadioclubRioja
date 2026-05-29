@@ -3,7 +3,7 @@
     "title": "Instalación de nodos Meshtastic y LoRa APRS en el Puerto de Herrera",
     "date": "2026-05-29T00:00:00.000Z",
     "author": "EA1RCR",
-    "image": "\"\"",
-    "body": "<p>El Radio Club Rioja ha instalado recientemente dos nuevos nodos en el Puerto de Herrera:</p>\n<p>Router Meshtastic – Para comunicación off-grid y malla de nodos.</p>\n<p>Nodo LoRa APRS en 433 MHz – Para seguimiento y mensajería en la banda de 70cm.</p>\n<p>Estos nodos mejoran la cobertura de la zona y permiten experimentar con tecnologías de comunicación digital de bajo consumo.</p>\n<p>PRUEBA PRUEBA PRUEBA</p>"
+    "image": "/images/photo_5794068460819123825_y.jpg",
+    "body": "<p class=\"mb-3\">El Radio Club Rioja ha instalado recientemente dos nuevos nodos en el Puerto de Herrera:</p>\n<ul class=\"list-disc pl-5 space-y-1 my-2\">\n<li>Un Router Meshtastic para comunicación off-grid y aportar cobertura para la malla de nodos.</li>\n<li>Nodo LoRa APRS en 433 MHz para seguimiento y mensajería en la banda de 70cm.</li>\n</ul>\n<p class=\"mb-3\">Estos nodos mejoran la cobertura de la zona y permiten experimentar con tecnologías de comunicación digital de bajo consumo.</p>\n<p class=\"mb-3\">Se pueden ver ambos nodos en estas webs:</p>\n<ul class=\"list-disc pl-5 space-y-1 my-2\">\n<li><a href=\"https://aprs-map.info/views/overview.php?id=48711&imperialUnits=0\" target=\"_blank\" rel=\"noopener\" class=\"text-red-600 hover:underline font-medium\">APRS</a></li>\n<li><a href=\"https://malla.meshtastic.es/node/1186041354\" target=\"_blank\" rel=\"noopener\" class=\"text-red-600 hover:underline font-medium\">Meshtastic</a></li>\n</ul>"
   }
 ]

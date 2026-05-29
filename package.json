@@ -2,8 +2,8 @@
   "name": "radioclubrioja",
   "version": "1.0.0",
   "scripts": {
-    "dev": "tinacms dev -c \"npx serve .\"",
-    "build": "node scripts/generate-news.js && tinacms build",
+    "dev": "node scripts/build.js && npx serve dist",
+    "build": "node scripts/build.js",
     "generate-news": "node scripts/generate-news.js"
   },
   "dependencies": {

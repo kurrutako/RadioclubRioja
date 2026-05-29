@@ -1,0 +1,38 @@
+[
+  {
+    "numero": 6,
+    "fecha": "2025-03-15",
+    "pdf": "http://ea1rcr.ure.es/documentos/Boletín_06_ea1rcr.pdf",
+    "slug": "2025-03-15-boletin-6.md"
+  },
+  {
+    "numero": 5,
+    "fecha": "2024-12-01",
+    "pdf": "http://ea1rcr.ure.es/documentos/Boletín_05_ea1rcr.pdf",
+    "slug": "2024-12-01-boletin-5.md"
+  },
+  {
+    "numero": 4,
+    "fecha": "2024-09-05",
+    "pdf": "http://ea1rcr.ure.es/documentos/Boletín_04_ea1rcr.pdf",
+    "slug": "2024-09-05-boletin-4.md"
+  },
+  {
+    "numero": 3,
+    "fecha": "2024-06-10",
+    "pdf": "http://ea1rcr.ure.es/documentos/Boletín_03_ea1rcr.pdf",
+    "slug": "2024-06-10-boletin-3.md"
+  },
+  {
+    "numero": 2,
+    "fecha": "2024-03-20",
+    "pdf": "http://ea1rcr.ure.es/documentos/Boletín_02_ea1rcr.pdf",
+    "slug": "2024-03-20-boletin-2.md"
+  },
+  {
+    "numero": 1,
+    "fecha": "2024-01-15",
+    "pdf": "http://ea1rcr.ure.es/documentos/Boletín_01_ea1rcr.pdf",
+    "slug": "2024-01-15-boletin-1.md"
+  }
+]

@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Radio Club Rioja (EA1RCR), Sección Territorial de URE en La Rioja. Cursos de radioaficionado, concursos, activaciones y más desde 1975.">
+    <meta property="og:title" content="EA1RCR - Radio Club Rioja">
+    <meta property="og:description" content="Radio Club Rioja (EA1RCR), Sección Territorial de URE en La Rioja. Cursos de radioaficionado, concursos, activaciones y más desde 1975.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ea1rcr.netlify.app/">
+    <meta property="og:image" content="https://ea1rcr.netlify.app/banner-hero.jpg">
+    <link rel="icon" href="favicon.svg" type="image/svg+xml">
+    <title>EA1RCR - Radio Club Rioja</title>
+{{head}}
+@@ACTIVE_PAGE=0@@
+{{header}}
+
+    <!-- Hero con banner -->
+    <header class="relative h-[520px] flex items-center justify-center overflow-hidden">
+        <div class="absolute inset-0 bg-cover bg-center" style="background-image: url('banner-hero.jpg')"></div>
+        <div class="absolute inset-0 bg-gradient-to-b from-black/60 via-black/50 to-black/70"></div>
+
+        <div class="relative z-10 max-w-screen-xl mx-auto px-8 text-center text-white">
+            <div class="inline-flex items-center gap-x-2 bg-white/10 px-4 py-1.5 rounded-2xl mb-6">
+                <div class="w-2 h-2 bg-emerald-400 rounded-full animate-pulse"></div>
+                <span class="text-sm font-medium">Sección Territorial de URE en La Rioja</span>
+            </div>
+
+            <h1 class="text-6xl md:text-7xl font-semibold tracking-tighter heading-font">
+                Radio Club<br>Rioja
+            </h1>
+            <p class="mt-4 text-xl text-white/90 max-w-md mx-auto">
+                Promoviendo la radioafición en La Rioja desde 1975
+            </p>
+
+            <div class="flex flex-col sm:flex-row items-center justify-center gap-4 mt-10">
+                <a href="el-club.html" class="px-8 py-4 bg-white text-slate-900 font-semibold rounded-2xl hover:bg-slate-100 transition-colors">
+                    Conócenos
+                </a>
+                <a href="cursos.html" class="px-8 py-4 border border-white/40 hover:bg-white/10 font-medium rounded-2xl transition-colors">
+                    Cursos EA
+                </a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Quick info -->
+    <div class="max-w-screen-xl mx-auto px-8 -mt-8 relative z-10">
+        <div class="bg-white rounded-3xl shadow-xl border border-slate-100 p-8 grid md:grid-cols-3 gap-8">
+            <div class="flex gap-x-4">
+                <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-map-marker-alt text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-semibold">Nuestra sede</div>
+                    <div class="text-slate-600 mt-1">C/ Belchite, s/n<br>26003 Logroño</div>
+                </div>
+            </div>
+            <div class="flex gap-x-4">
+                <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-door-open text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-semibold">Ven a visitarnos</div>
+                    <div class="text-slate-600 mt-1">Viernes 19:30 - 21:00<br><a href="sede.html" class="text-red-600 hover:underline">Ver cómo llegar →</a></div>
+                </div>
+            </div>
+            <div class="flex gap-x-4">
+                <div class="w-12 h-12 bg-red-100 text-red-600 rounded-2xl flex items-center justify-center flex-shrink-0">
+                    <i class="fa-solid fa-broadcast-tower text-xl"></i>
+                </div>
+                <div>
+                    <div class="font-semibold">Equipos activos</div>
+                    <div class="text-slate-600 mt-1">R5 Herrera<br>Router Meshtastic 868Mhz<br>Nodo APRS 433Mhz</div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Última noticia + Boletines en 2 columnas -->
+    <div class="max-w-screen-xl mx-auto px-8 py-16">
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Tarjeta última noticia -->
+            <div class="md:col-span-2">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-bolt text-red-600"></i>
+                    Última noticia
+                </h2>
+                <div id="latest-news" class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="grid md:grid-cols-2 gap-0">
+                        <div class="p-8">
+                            <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
+                                <time id="news-date">Cargando...</time>
+                                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                                <span id="news-author">—</span>
+                            </div>
+                            <h3 id="news-title" class="text-2xl font-semibold tracking-tight text-slate-900">—</h3>
+                            <div id="news-excerpt" class="mt-3 text-slate-700">—</div>
+                            <div class="mt-6">
+                                <a href="noticias.html" class="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1">
+                                    Ver todas las noticias <i class="fa-solid fa-arrow-right text-xs"></i>
+                                </a>
+                            </div>
+                        </div>
+                        <div id="news-image-container" class="hidden md:flex items-center justify-center bg-slate-100">
+                            <!-- La imagen se insertará aquí con JS -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Lista de boletines -->
+            <div>
+                <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-newspaper text-red-600"></i>
+                    Boletines RCR
+                </h3>
+                <div id="boletines-container" class="space-y-1 text-sm">
+                    <div class="text-center py-4 text-slate-400 text-xs">
+                        <i class="fa-solid fa-spinner fa-spin text-lg mb-2 block"></i>
+                        Cargando boletines…
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+{{footer}}
+
+    <script>
+    function stripHtml(str) {
+        if (!str) return '';
+        return str.replace(/<[^>]*>/g, '');
+    }
+
+    function openLightbox(imgSrc) {
+        var lb = document.createElement('div');
+        lb.className = 'fixed inset-0 bg-black/90 z-50 flex items-center justify-center p-4 cursor-pointer';
+        lb.onclick = function() { document.body.removeChild(lb); };
+        var img = document.createElement('img');
+        img.src = imgSrc;
+        img.className = 'max-w-full max-h-full object-contain';
+        lb.appendChild(img);
+        document.body.appendChild(lb);
+    }
+
+    async function loadLatestNews() {
+        try {
+            var res = await fetch('data/noticias.json');
+            if (!res.ok) return;
+            var noticias = await res.json();
+            if (!noticias.length) return;
+            var n = noticias[0];
+            var parts = (n.date || '').split('-').map(Number);
+            var d = n.date ? new Date(parts[0], parts[1] - 1, parts[2]) : new Date();
+            document.getElementById('news-date').textContent = d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('news-author').textContent = n.author || 'EA1RCR';
+            document.getElementById('news-title').textContent = n.title || 'Sin título';
+            var excerpt = stripHtml(n.body);
+            document.getElementById('news-excerpt').innerHTML = excerpt.length > 200 ? excerpt.slice(0, 200) + '…' : excerpt;
+            if (n.image) {
+                var imgContainer = document.getElementById('news-image-container');
+                var img = document.createElement('img');
+                img.src = n.image;
+                img.alt = n.title || 'Imagen de la noticia';
+                img.className = 'w-full h-full object-cover cursor-pointer hover:opacity-90 transition-opacity';
+                img.onclick = function() { openLightbox(n.image); };
+                imgContainer.appendChild(img);
+                imgContainer.classList.remove('hidden');
+            }
+        } catch (e) {
+            document.getElementById('latest-news').style.display = 'none';
+        }
+    }
+    loadLatestNews();
+
+    async function loadBoletines() {
+        var container = document.getElementById('boletines-container');
+        if (!container) return;
+        try {
+            var res = await fetch('data/boletines.json');
+            if (!res.ok) throw new Error('fetch failed');
+            var boletines = await res.json();
+            if (!boletines.length) {
+                container.innerHTML = '<p class="text-xs text-slate-500 mt-1">No hay boletines disponibles</p>';
+                return;
+            }
+            container.innerHTML = boletines.map(function(b) {
+                return '<a href="' + b.pdf + '" target="_blank" rel="noopener" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700 transition-colors">' +
+                    '<span>Boletín RCR Nº ' + b.numero + '</span>' +
+                    '<i class="fa-solid fa-download text-slate-400 text-xs"></i>' +
+                    '</a>';
+            }).join('');
+            container.insertAdjacentHTML('afterend', '<p class="text-xs text-slate-500 mt-3">' + boletines.length + ' boletín(es) publicado(s)</p>');
+        } catch (e) {
+            container.innerHTML = '<p class="text-xs text-slate-500">Error cargando boletines</p>';
+            console.error('Error cargando boletines:', e);
+        }
+    }
+    loadBoletines();
+    </script>
+</body>
+</html>
