@@ -23,7 +23,8 @@ function parseFrontmatter(content) {
     if ((val.startsWith('"') && val.endsWith('"')) || (val.startsWith("'") && val.endsWith("'"))) {
       val = val.slice(1, -1);
     }
-    if (val.match(/^\d{4}-\d{2}-\d{2}/)) val = new Date(val).toISOString();
+    if (val.match(/^\d{4}-\d{2}-\d{2}$/)) val = val;  // keep as-is for date-only
+    else if (val.match(/^\d{4}-\d{2}-\d{2}/)) val = new Date(val).toISOString();
     data[key] = val;
   });
 
