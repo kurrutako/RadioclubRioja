@@ -195,13 +195,26 @@
                 if (m) meta[m[1]] = m[2];
             }
             const body = lines.slice(bodyStart).join('\n').trim();
-            const d = new Date(meta.date || mdFiles[0].name);
+            // Parse date from YYYY-MM-DD string to avoid timezone issues
+            function parseDateLocal(dateStr) {
+                const [y, m, d] = dateStr.split('-').map(Number);
+                return new Date(y, m - 1, d);
+            }
+            const d = meta.date ? parseDateLocal(meta.date) : new Date();
             const fmt = d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
             document.getElementById('news-date').textContent = fmt;
             document.getElementById('news-author').textContent = meta.author || 'EA1RCR';
-            document.getElementById('news-title').textContent = meta.title || mdFiles[0].name;
-            const truncated = body.split('\n').slice(0, 3).join('\n').replace(/[*_#]/g, '');
-            document.getElementById('news-excerpt').textContent = truncated;
+            document.getElementById('news-title').textContent = meta.title || 'Sin título';
+            // Clean body: remove markdown, strip empty/noise lines, take content paragraphs
+            const cleanLines = body.split('\n')
+                .map(l => l.trim())
+                .filter(l => l.length > 0 && !l.startsWith('- ') && !l.startsWith('* '))
+                .join(' ')
+                .replace(/[*_#`~\[\]]/g, '')
+                .replace(/\s+/g, ' ')
+                .trim();
+            const truncated = cleanLines.slice(0, 200) + (cleanLines.length > 200 ? '…' : '');
+            document.getElementById('news-excerpt').textContent = truncated || 'Sin contenido disponible.';
         } catch (e) {
             document.getElementById('latest-news').style.display = 'none';
         }
