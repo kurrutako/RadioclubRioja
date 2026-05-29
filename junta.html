@@ -39,32 +39,39 @@
                 <a href="noticias.html" class="hover:text-slate-900 text-slate-600">Noticias</a>
                 <a href="contacto.html" class="hover:text-slate-900 text-slate-600">Contacto</a>
             </div>
-                <div class="md:hidden">
-            <button id="menu-toggle" class="p-2 rounded-lg hover:bg-slate-100 transition-colors" aria-label="Menú">
-                <i class="fa-solid fa-bars text-xl"></i>
-            </button>
         </div>
-        <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm" onclick="document.getElementById('mobile-menu').classList.add('hidden')">
-            <div class="absolute top-0 right-0 h-full w-72 bg-white shadow-2xl p-6" onclick="event.stopPropagation()">
-                <div class="flex justify-between items-center mb-8">
-                    <span class="font-semibold text-lg">Menú</span>
-                    <button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="p-2 rounded-lg hover:bg-slate-100">
-                        <i class="fa-solid fa-xmark text-xl"></i>
-                    </button>
-                </div>
-                <nav class="space-y-1">
-                    <a href="index.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Inicio</a>
-                    <a href="el-club.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">El Club</a>
-                    <a href="sede.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Sede</a>
-                    <a href="junta.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Junta</a>
-                    <a href="cursos.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Cursos</a>
-                    <a href="noticias.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Noticias</a>
-                    <a href="contacto.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Contacto</a>
-                </nav>
+    </nav>
+    <!-- Menú móvil -->
+    <div class="md:hidden fixed top-5 right-5 z-50">
+        <button id="menu-toggle" class="p-2 rounded-lg bg-white shadow-md hover:bg-slate-100 transition-colors" aria-label="Menú">
+            <i class="fa-solid fa-bars text-xl"></i>
+        </button>
+    </div>
+    <div id="mobile-menu" class="hidden fixed inset-0 z-40 bg-slate-900/50 backdrop-blur-sm">
+        <div class="absolute top-0 right-0 h-full w-72 bg-white shadow-2xl p-6">
+            <div class="flex justify-between items-center mb-8">
+                <span class="font-semibold text-lg">Menú</span>
+                <button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="p-2 rounded-lg hover:bg-slate-100">
+                    <i class="fa-solid fa-xmark text-xl"></i>
+                </button>
             </div>
+            <nav class="space-y-1">
+                <a href="index.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Inicio</a>
+                <a href="el-club.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">El Club</a>
+                <a href="sede.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Sede</a>
+                <a href="junta.html" class="block px-3 py-2 rounded-lg text-slate-900 bg-red-50 font-semibold" onclick="toggleMobileMenu(false)">Junta</a>
+                <a href="cursos.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Cursos</a>
+                <a href="noticias.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Noticias</a>
+                <a href="contacto.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Contacto</a>
+            </nav>
         </div>
-        <script>document.getElementById('menu-toggle').addEventListener('click', function() { document.getElementById('mobile-menu').classList.toggle('hidden'); }); function toggleMobileMenu(h) { if (h===false) document.getElementById('mobile-menu').classList.add('hidden'); }</script>
-    
+    </div>
+    <script>
+    document.getElementById('menu-toggle').addEventListener('click', function() { document.getElementById('mobile-menu').classList.toggle('hidden'); });
+    function toggleMobileMenu(h) { if (h===false) document.getElementById('mobile-menu').classList.add('hidden'); }
+    </script>
+
+    <!-- Hero con banner -->
 
     <div class="max-w-screen-xl mx-auto px-8 py-16">
         <h1 class="text-5xl font-semibold tracking-tight">Junta Directiva</h1>
