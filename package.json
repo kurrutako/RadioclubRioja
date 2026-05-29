@@ -9,5 +9,11 @@
   "dependencies": {
     "gray-matter": "^4.0.3",
     "tinacms": "^2.0.0"
+  },
+  "devDependencies": {
+    "autoprefixer": "^10.5.0",
+    "postcss": "^8.5.15",
+    "postcss-cli": "^11.0.1",
+    "tailwindcss": "^4.3.0"
   }
 }
