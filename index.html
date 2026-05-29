@@ -97,9 +97,30 @@
         </div>
     </div>
 
-    <!-- Resto del contenido... -->
-    <div class="max-w-screen-xl mx-auto px-8 py-20 text-center text-slate-500">
+    <!-- Última noticia -->
+    <div class="max-w-screen-xl mx-auto px-8 py-16">
+        <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
+            <i class="fa-solid fa-bolt text-red-600"></i>
+            Última noticia
+        </h2>
+        <div id="latest-news" class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
+            <div class="p-8">
+                <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
+                    <time id="news-date">Cargando...</time>
+                    <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                    <span id="news-author">—</span>
+                </div>
+                <h3 id="news-title" class="text-2xl font-semibold tracking-tight text-slate-900">—</h3>
+                <div id="news-excerpt" class="mt-3 text-slate-700">—</div>
+                <div class="mt-6">
+                    <a href="noticias.html" class="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1">
+                        Ver todas las noticias <i class="fa-solid fa-arrow-right text-xs"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
     </div>
+
     <!-- Boletines Sidebar -->
     <div class="max-w-screen-xl mx-auto px-8 pb-16">
         <div class="max-w-md">
@@ -148,5 +169,40 @@
         </div>
     </footer>
 
+    <script>
+    async function loadLatestNews() {
+        const GITHUB_API = 'https://api.github.com/repos/kurrutako/RadioclubRioja/contents/content/noticias';
+        try {
+            const res = await fetch(GITHUB_API + '?ref=main', {
+                headers: { 'Accept': 'application/vnd.github.v3+json' }
+            });
+            if (!res.ok) return;
+            const files = await res.json();
+            const mdFiles = files.filter(f => f.name.endsWith('.md')).sort((a, b) => b.name.localeCompare(a.name));
+            if (!mdFiles.length) return;
+            const postRes = await fetch(mdFiles[0].download_url);
+            const raw = await postRes.text();
+            const meta = {};
+            const lines = raw.split('\n');
+            let bodyStart = 0;
+            for (let i = 0; i < lines.length; i++) {
+                if (lines[i].trim() === '---') { bodyStart = i + 1; break; }
+                const m = lines[i].match(/^(\w+):\s*(.*)$/);
+                if (m) meta[m[1]] = m[2];
+            }
+            const body = lines.slice(bodyStart).join('\n').trim();
+            const d = new Date(meta.date || mdFiles[0].name);
+            const fmt = d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+            document.getElementById('news-date').textContent = fmt;
+            document.getElementById('news-author').textContent = meta.author || 'EA1RCR';
+            document.getElementById('news-title').textContent = meta.title || mdFiles[0].name;
+            const truncated = body.split('\n').slice(0, 3).join('\n').replace(/[*_#]/g, '');
+            document.getElementById('news-excerpt').textContent = truncated;
+        } catch (e) {
+            document.getElementById('latest-news').style.display = 'none';
+        }
+    }
+    loadLatestNews();
+    </script>
 </body>
 </html>
