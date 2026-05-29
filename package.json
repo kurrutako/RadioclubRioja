@@ -3,9 +3,11 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "tinacms dev -c \"npx serve .\"",
-    "build": "tinacms build"
+    "build": "node scripts/generate-news.js && tinacms build",
+    "generate-news": "node scripts/generate-news.js"
   },
   "dependencies": {
+    "gray-matter": "^4.0.3",
     "tinacms": "^2.0.0"
   }
 }
