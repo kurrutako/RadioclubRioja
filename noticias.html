@@ -3,10 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Últimas noticias, actividades y novedades del Radio Club Rioja (EA1RCR) en La Rioja.">
+    <meta property="og:title" content="Noticias y Actualidad • EA1RCR">
+    <meta property="og:description" content="Últimas noticias, actividades y novedades del Radio Club Rioja (EA1RCR) en La Rioja.">
+    <meta property="og:type" content="website">
+    <meta property="og:url" content="https://ea1rcr.netlify.app/noticias.html">
     <link rel="icon" href="favicon.svg" type="image/svg+xml">
     <title>Noticias • EA1RCR</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Space+Grotesk:wght@500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css">
     <style>
         body { font-family: Inter, system-ui, sans-serif; }
         .nav-active { color: #c8102e; font-weight: 600; }
@@ -31,8 +39,32 @@
                 <a href="noticias.html" class="nav-active">Noticias</a>
                 <a href="contacto.html" class="hover:text-slate-900 text-slate-600">Contacto</a>
             </div>
+                <div class="md:hidden">
+            <button id="menu-toggle" class="p-2 rounded-lg hover:bg-slate-100 transition-colors" aria-label="Menú">
+                <i class="fa-solid fa-bars text-xl"></i>
+            </button>
         </div>
-    </nav>
+        <div id="mobile-menu" class="hidden fixed inset-0 z-50 bg-slate-900/50 backdrop-blur-sm" onclick="document.getElementById('mobile-menu').classList.add('hidden')">
+            <div class="absolute top-0 right-0 h-full w-72 bg-white shadow-2xl p-6" onclick="event.stopPropagation()">
+                <div class="flex justify-between items-center mb-8">
+                    <span class="font-semibold text-lg">Menú</span>
+                    <button onclick="document.getElementById('mobile-menu').classList.add('hidden')" class="p-2 rounded-lg hover:bg-slate-100">
+                        <i class="fa-solid fa-xmark text-xl"></i>
+                    </button>
+                </div>
+                <nav class="space-y-1">
+                    <a href="index.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Inicio</a>
+                    <a href="el-club.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">El Club</a>
+                    <a href="sede.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Sede</a>
+                    <a href="junta.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Junta</a>
+                    <a href="cursos.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Cursos</a>
+                    <a href="noticias.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Noticias</a>
+                    <a href="contacto.html" class="block px-3 py-2 rounded-lg text-slate-600 hover:bg-slate-100" onclick="toggleMobileMenu(false)">Contacto</a>
+                </nav>
+            </div>
+        </div>
+        <script>document.getElementById('menu-toggle').addEventListener('click', function() { document.getElementById('mobile-menu').classList.toggle('hidden'); }); function toggleMobileMenu(h) { if (h===false) document.getElementById('mobile-menu').classList.add('hidden'); }</script>
+    
 
     <div class="max-w-screen-xl mx-auto px-8 py-16">
         <div class="flex items-end justify-between mb-10">
@@ -110,7 +142,12 @@
                     }
                 }
                 const body = lines.slice(bodyStart).join('\n').trim();
-                return { ...meta, body, slug: f.name.replace('.md', '') };
+                // Convertir saltos de línea en HTML
+                const bodyHtml = body.split('\n\n').filter(p => p.trim()).map(p => {
+                    const cleaned = p.trim().replace(/[*_#`~\[\]]/g, '');
+                    return '<p>' + cleaned.replace(/\n/g, '<br>') + '</p>';
+                }).join('') || '<p>Sin contenido.</p>';
+                return { ...meta, body: bodyHtml, slug: f.name.replace('.md', '') };
             }));
 
             container.innerHTML = noticias.map(n => {
@@ -132,7 +169,7 @@
                             </div>
                             <h2 class="text-2xl font-semibold tracking-tight">${n.title || 'Sin título'}</h2>
                             <div class="mt-4 text-slate-700">
-                                <p>${n.body}</p>
+                                ${n.body}
                             </div>
                         </div>
                         ${imgHtml}
