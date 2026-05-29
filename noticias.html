@@ -45,43 +45,16 @@
             </a>
         </div>
 
-        <!-- Lista de noticias (formato blog) -->
+        <!-- Lista de noticias -->
         <div class="space-y-8" id="noticias-container">
-
-            <!-- Noticia 1 -->
-            <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
-                <div class="p-8">
-                    <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
-                        <time>29 Mayo 2026</time>
-                        <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                        <span>EA1RCR</span>
-                    </div>
-                    
-                    <h2 class="text-2xl font-semibold tracking-tight">Instalación de nodos Meshtastic y LoRa APRS en el Puerto de Herrera</h2>
-                    
-                    <div class="mt-4 text-slate-700">
-                        <p>El Radio Club Rioja ha instalado recientemente dos nuevos nodos en el Puerto de Herrera:</p>
-                        <ul class="mt-3 list-disc list-inside space-y-1">
-                            <li><strong>Router Meshtastic</strong> – Para comunicación off-grid y malla de nodos.</li>
-                            <li><strong>Nodo LoRa APRS en 433 MHz</strong> – Para seguimiento y mensajería en la banda de 70cm.</li>
-                        </ul>
-                        <p class="mt-3">Estos nodos mejoran la cobertura de la zona y permiten experimentar con tecnologías de comunicación digital de bajo consumo.</p>
-                    </div>
-
-                    <div class="mt-6 pt-6 border-t border-slate-200 flex items-center justify-between">
-                        <a href="#" class="text-red-600 hover:text-red-700 text-sm font-medium">Leer más →</a>
-                        <div class="flex gap-2">
-                            <button class="text-slate-400 hover:text-red-600"><i class="fa-regular fa-heart"></i></button>
-                            <button class="text-slate-400 hover:text-red-600"><i class="fa-regular fa-share"></i></button>
-                        </div>
-                    </div>
-                </div>
-            </article>
-
+            <div class="text-center py-12 text-slate-500">
+                <i class="fa-solid fa-spinner fa-spin text-2xl mb-3 block"></i>
+                Cargando noticias…
+            </div>
         </div>
 
-        <!-- Mensaje si no hay más noticias -->
-        <div class="mt-12 p-8 bg-white rounded-3xl border border-slate-200 text-center">
+        <!-- Mensaje si no hay noticias -->
+        <div id="no-noticias" class="hidden mt-12 p-8 bg-white rounded-3xl border border-slate-200 text-center">
             <i class="fa-solid fa-newspaper text-slate-300 text-4xl mb-4 block"></i>
             <p class="text-slate-600">Próximamente más noticias y actualizaciones del club.</p>
             <p class="text-sm text-slate-500 mt-2">Suscríbete a nuestro boletín para recibir las últimas novedades.</p>
@@ -100,51 +73,102 @@
     </footer>
 
     <script>
-        // Script para cargar noticias dinámicamente desde JSON
-        async function loadNoticias() {
-            try {
-                // Intentar cargar noticias desde archivo JSON
-                const response = await fetch('/data/noticias.json');
-                if (response.ok) {
-                    const noticias = await response.json();
-                    renderNoticias(noticias);
-                }
-            } catch (e) {
-                console.log('Usando noticias por defecto.');
+    // Parsea frontmatter YAML simple de un string Markdown
+    function parseFrontmatter(raw) {
+        const meta = {};
+        const lines = raw.split('\n');
+        let bodyStart = 0;
+        let fmStart = -1;
+        for (let i = 0; i < lines.length; i++) {
+            if (lines[i].trim() === '---') { fmStart = i; break; }
+        }
+        if (fmStart >= 0) {
+            for (let i = fmStart + 1; i < lines.length; i++) {
+                if (lines[i].trim() === '---') { bodyStart = i + 1; break; }
+                const m = lines[i].match(/^(\w+):\s*(.*)$/);
+                if (m) meta[m[1]] = m[2];
             }
         }
+        const body = lines.slice(bodyStart).join('\n').trim();
+        return { meta, body };
+    }
 
-        function renderNoticias(noticias) {
-            const container = document.getElementById('noticias-container');
-            if (!noticias || noticias.length === 0) return;
+    // Convierte Markdown básico a HTML
+    function mdToHtml(md) {
+        let html = md
+            .replace(/^### (.+)$/gm, '<h3 class="text-lg font-semibold mt-4 mb-2">$1</h3>')
+            .replace(/^## (.+)$/gm, '<h2 class="text-xl font-semibold mt-5 mb-2">$1</h2>')
+            .replace(/^# (.+)$/gm, '<h1 class="text-2xl font-semibold mt-6 mb-3">$1</h1>')
+            .replace(/\*\*(.+?)\*\*/g, '<strong>$1</strong>')
+            .replace(/\*(.+?)\*/g, '<em>$1</em>')
+            .replace(/`(.+?)`/g, '<code class="bg-slate-100 px-1 rounded text-sm">$1</code>')
+            .replace(/^\- (.+)$/gm, '<li class="ml-4 list-disc">$1</li>')
+            .replace(/^\* (.+)$/gm, '<li class="ml-4 list-disc">$1</li>')
+            .replace(/\n\n/g, '</p><p class="mt-3">');
+        // Wrap in paragraph if not already wrapped
+        if (!html.startsWith('<')) html = '<p>' + html;
+        if (!html.endsWith('>')) html += '</p>';
+        return html;
+    }
 
-            container.innerHTML = noticias.map(noticia => `
+    function parseDateLocal(dateStr) {
+        if (!dateStr) return new Date();
+        const [y, m, d] = dateStr.split('-').map(Number);
+        return new Date(y, m - 1, d);
+    }
+
+    async function loadNoticias() {
+        const GITHUB_API = 'https://api.github.com/repos/kurrutako/RadioclubRioja/contents/content/noticias';
+        const container = document.getElementById('noticias-container');
+        const noNoticias = document.getElementById('no-noticias');
+
+        try {
+            const res = await fetch(GITHUB_API + '?ref=main', {
+                headers: { 'Accept': 'application/vnd.github.v3+json' }
+            });
+            if (!res.ok) throw new Error('API error');
+            const files = await res.json();
+            const mdFiles = files.filter(f => f.name.endsWith('.md')).sort((a, b) => b.name.localeCompare(a.name));
+
+            if (mdFiles.length === 0) {
+                container.innerHTML = '';
+                noNoticias.classList.remove('hidden');
+                return;
+            }
+
+            // Cargar cada noticia
+            const noticias = await Promise.all(mdFiles.map(async f => {
+                const r = await fetch(f.download_url);
+                const raw = await r.text();
+                const { meta, body } = parseFrontmatter(raw);
+                return { ...meta, body, slug: f.name.replace('.md', '') };
+            }));
+
+            container.innerHTML = noticias.map(n => {
+                const d = parseDateLocal(n.date);
+                const fmt = d.toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' });
+                return `
                 <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
                     <div class="p-8">
                         <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
-                            <time>${new Date(noticia.date).toLocaleDateString('es-ES', { year: 'numeric', month: 'long', day: 'numeric' })}</time>
+                            <time>${fmt}</time>
                             <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                            <span>${noticia.author || 'EA1RCR'}</span>
+                            <span>${n.author || 'EA1RCR'}</span>
                         </div>
-                        <h2 class="text-2xl font-semibold tracking-tight">${noticia.title}</h2>
-                        <div class="mt-4 text-slate-700">
-                            ${noticia.body}
-                        </div>
-                        <div class="mt-6 pt-6 border-t border-slate-200 flex items-center justify-between">
-                            <a href="#" class="text-red-600 hover:text-red-700 text-sm font-medium">Leer más →</a>
-                            <div class="flex gap-2">
-                                <button class="text-slate-400 hover:text-red-600"><i class="fa-regular fa-heart"></i></button>
-                                <button class="text-slate-400 hover:text-red-600"><i class="fa-regular fa-share"></i></button>
-                            </div>
-                        </div>
+                        <h2 class="text-2xl font-semibold tracking-tight">${n.title || 'Sin título'}</h2>
+                        <div class="mt-4 text-slate-700">${mdToHtml(n.body)}</div>
                     </div>
-                </article>
-            `).join('');
+                </article>`;
+            }).join('');
+
+        } catch (e) {
+            container.innerHTML = '';
+            noNoticias.classList.remove('hidden');
+            console.error('Error cargando noticias:', e);
         }
+    }
 
-        // Cargar noticias al iniciar
-        loadNoticias();
+    loadNoticias();
     </script>
-
 </body>
 </html>

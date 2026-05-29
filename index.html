@@ -189,10 +189,24 @@
             const meta = {};
             const lines = raw.split('\n');
             let bodyStart = 0;
+            let frontmatterStart = -1;
+            // Find opening ---
             for (let i = 0; i < lines.length; i++) {
-                if (lines[i].trim() === '---') { bodyStart = i + 1; break; }
-                const m = lines[i].match(/^(\w+):\s*(.*)$/);
-                if (m) meta[m[1]] = m[2];
+                if (lines[i].trim() === '---') {
+                    frontmatterStart = i;
+                    break;
+                }
+            }
+            // Parse frontmatter between --- markers
+            if (frontmatterStart >= 0) {
+                for (let i = frontmatterStart + 1; i < lines.length; i++) {
+                    if (lines[i].trim() === '---') {
+                        bodyStart = i + 1;
+                        break;
+                    }
+                    const m = lines[i].match(/^(\w+):\s*(.*)$/);
+                    if (m) meta[m[1]] = m[2];
+                }
             }
             const body = lines.slice(bodyStart).join('\n').trim();
             // Parse date from YYYY-MM-DD string to avoid timezone issues
