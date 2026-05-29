@@ -6,7 +6,7 @@ image: /images/photo_5794068460819123825_y.jpg
 ---
 El Radio Club Rioja ha instalado recientemente dos nuevos nodos en el Puerto de Herrera:
 
-Router Meshtastic – Para comunicación off-grid y malla de nodos.
+Un Router Meshtastic – Para comunicación off-grid y aportar cobertura para la malla de nodos.
 
 Nodo LoRa APRS en 433 MHz – Para seguimiento y mensajería en la banda de 70cm.
 
