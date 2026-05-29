@@ -14,4 +14,4 @@ Estos nodos mejoran la cobertura de la zona y permiten experimentar con tecnolog
 Se pueden ver ambos nodos en estas webs:
 
 * APRS: <https://aprs-map.info/views/overview.php?id=48711&imperialUnits=0>
-* Meshtastic: <https://malla.meshtastic.es/node/1186041354>[](https://aprs-map.info/views/overview.php?id=48711&imperialUnits=0)
+* Meshtastic: https://malla.meshtastic.es/node/1186041354
