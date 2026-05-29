@@ -97,64 +97,67 @@
         </div>
     </div>
 
-    <!-- Última noticia -->
+    <!-- Última noticia + Boletines en 2 columnas -->
     <div class="max-w-screen-xl mx-auto px-8 py-16">
-        <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
-            <i class="fa-solid fa-bolt text-red-600"></i>
-            Última noticia
-        </h2>
-        <div id="latest-news" class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
-            <div class="p-8">
-                <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
-                    <time id="news-date">Cargando...</time>
-                    <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                    <span id="news-author">—</span>
+        <div class="grid md:grid-cols-3 gap-8">
+            <!-- Tarjeta última noticia -->
+            <div class="md:col-span-2">
+                <h2 class="text-2xl font-semibold mb-6 flex items-center gap-2">
+                    <i class="fa-solid fa-bolt text-red-600"></i>
+                    Última noticia
+                </h2>
+                <div id="latest-news" class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
+                    <div class="p-8">
+                        <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
+                            <time id="news-date">Cargando...</time>
+                            <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                            <span id="news-author">—</span>
+                        </div>
+                        <h3 id="news-title" class="text-2xl font-semibold tracking-tight text-slate-900">—</h3>
+                        <div id="news-excerpt" class="mt-3 text-slate-700">—</div>
+                        <div class="mt-6">
+                            <a href="noticias.html" class="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1">
+                                Ver todas las noticias <i class="fa-solid fa-arrow-right text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
                 </div>
-                <h3 id="news-title" class="text-2xl font-semibold tracking-tight text-slate-900">—</h3>
-                <div id="news-excerpt" class="mt-3 text-slate-700">—</div>
-                <div class="mt-6">
-                    <a href="noticias.html" class="text-red-600 hover:text-red-700 font-medium text-sm flex items-center gap-1">
-                        Ver todas las noticias <i class="fa-solid fa-arrow-right text-xs"></i>
+            </div>
+
+            <!-- Lista de boletines -->
+            <div>
+                <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
+                    <i class="fa-solid fa-newspaper text-red-600"></i>
+                    Boletines RCR
+                </h3>
+                <div class="space-y-1 text-sm">
+                    <a href="http://ea1rcr.ure.es/documentos/Boletín_01_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
+                        <span>Boletín RCR Nº 1</span>
+                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
+                    </a>
+                    <a href="http://ea1rcr.ure.es/documentos/Boletín_02_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
+                        <span>Boletín RCR Nº 2</span>
+                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
+                    </a>
+                    <a href="http://ea1rcr.ure.es/documentos/Boletín_03_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
+                        <span>Boletín RCR Nº 3</span>
+                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
+                    </a>
+                    <a href="http://ea1rcr.ure.es/documentos/Boletín_04_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
+                        <span>Boletín RCR Nº 4</span>
+                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
+                    </a>
+                    <a href="http://ea1rcr.ure.es/documentos/Boletín_05_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
+                        <span>Boletín RCR Nº 5</span>
+                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
+                    </a>
+                    <a href="http://ea1rcr.ure.es/documentos/Boletín_06_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
+                        <span>Boletín RCR Nº 6</span>
+                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
                     </a>
                 </div>
+                <p class="text-xs text-slate-500 mt-3">Descarga los boletines en PDF</p>
             </div>
-        </div>
-    </div>
-
-    <!-- Boletines Sidebar -->
-    <div class="max-w-screen-xl mx-auto px-8 pb-16">
-        <div class="max-w-md">
-            <h3 class="text-xl font-semibold mb-4 flex items-center gap-2">
-                <i class="fa-solid fa-newspaper text-red-600"></i>
-                Boletines RCR
-            </h3>
-            <div class="space-y-1 text-sm">
-                <a href="http://ea1rcr.ure.es/documentos/Boletín_01_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                    <span>Boletín RCR Nº 1</span>
-                    <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                </a>
-                <a href="http://ea1rcr.ure.es/documentos/Boletín_02_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                    <span>Boletín RCR Nº 2</span>
-                    <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                </a>
-                <a href="http://ea1rcr.ure.es/documentos/Boletín_03_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                    <span>Boletín RCR Nº 3</span>
-                    <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                </a>
-                <a href="http://ea1rcr.ure.es/documentos/Boletín_04_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                    <span>Boletín RCR Nº 4</span>
-                    <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                </a>
-                <a href="http://ea1rcr.ure.es/documentos/Boletín_05_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                    <span>Boletín RCR Nº 5</span>
-                    <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                </a>
-                <a href="http://ea1rcr.ure.es/documentos/Boletín_06_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                    <span>Boletín RCR Nº 6</span>
-                    <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                </a>
-            </div>
-            <p class="text-xs text-slate-500 mt-3">Descarga los boletines en PDF</p>
         </div>
     </div>
 
