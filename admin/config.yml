@@ -1,18 +1,26 @@
 backend:
   name: git-gateway
+  branch: main
 
 media_folder: "images"
 public_folder: "/images"
 
+site_url: https://ea1rcr.netlify.app
+display_url: https://ea1rcr.netlify.app
+
+locale: "es"
+
 collections:
   - name: "noticias"
     label: "Noticias"
+    label_singular: "Noticia"
     folder: "content/noticias"
     create: true
     slug: "{{year}}-{{month}}-{{day}}-{{slug}}"
+    preview_path: "noticias.html"
     fields:
       - { label: "Título", name: "title", widget: "string" }
-      - { label: "Fecha", name: "date", widget: "datetime" }
-      - { label: "Autor", name: "author", widget: "string" }
+      - { label: "Fecha", name: "date", widget: "datetime", format: "YYYY-MM-DD" }
+      - { label: "Autor", name: "author", widget: "string", default: "EA1RCR" }
       - { label: "Imagen destacada", name: "image", widget: "image", required: false }
-      - { label: "Contenido", name: "body", widget: "markdown" }
+      - { show_vista previa: "Vista previa", name: "body", widget: "markdown" }
