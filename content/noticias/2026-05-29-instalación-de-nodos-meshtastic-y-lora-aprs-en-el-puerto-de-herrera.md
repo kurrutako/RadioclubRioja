@@ -2,7 +2,7 @@
 title: Instalación de nodos Meshtastic y LoRa APRS en el Puerto de Herrera
 date: 2026-05-29
 author: EA1RCR
-image: /images/photo_5794068460819123825_y.jpg
+image: ""
 ---
 El Radio Club Rioja ha instalado recientemente dos nuevos nodos en el Puerto de Herrera:
 
