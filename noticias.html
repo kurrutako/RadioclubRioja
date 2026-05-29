@@ -34,25 +34,55 @@
     </nav>
 
     <div class="max-w-screen-xl mx-auto px-8 py-16">
-        <h1 class="text-5xl font-semibold tracking-tight">Noticias y Actualidad</h1>
-        <p class="mt-2 text-slate-600">Últimas actividades y novedades del Radio Club Rioja</p>
+        <div class="flex items-end justify-between mb-10">
+            <div>
+                <h1 class="text-5xl font-semibold tracking-tight">Noticias y Actualidad</h1>
+                <p class="mt-2 text-slate-600">Últimas actividades y novedades del Radio Club Rioja</p>
+            </div>
+        </div>
 
-        <!-- Noticia 1 -->
-        <div class="mt-12 bg-white rounded-3xl p-8 border border-slate-200">
-            <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
-                <span>Marzo 2025</span>
-                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
-                <span>EA1RCR</span>
-            </div>
-            <h2 class="text-2xl font-semibold">Instalación de nodos Meshtastic y LoRa APRS en el Puerto de Herrera</h2>
-            <div class="mt-4 prose prose-slate max-w-none text-slate-700">
-                <p>El Radio Club Rioja ha instalado recientemente dos nuevos nodos en el Puerto de Herrera:</p>
-                <ul class="mt-4 space-y-2">
-                    <li><strong>Router Meshtastic</strong> – Para comunicación off-grid y malla de nodos.</li>
-                    <li><strong>Nodo LoRa APRS en 433 MHz</strong> – Para seguimiento y mensajería en la banda de 70cm.</li>
-                </ul>
-                <p class="mt-4">Estos nodos mejoran la cobertura de la zona y permiten experimentar con tecnologías de comunicación digital de bajo consumo.</p>
-            </div>
+        <!-- Lista de noticias (formato blog) -->
+        <div class="space-y-8">
+
+            <!-- Noticia 1 -->
+            <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
+                <div class="p-8">
+                    <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
+                        <time>Marzo 2025</time>
+                        <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                        <span>EA1RCR</span>
+                    </div>
+                    
+                    <h2 class="text-2xl font-semibold tracking-tight">Instalación de nodos Meshtastic y LoRa APRS en el Puerto de Herrera</h2>
+                    
+                    <div class="mt-4 text-slate-700">
+                        <p>El Radio Club Rioja ha instalado recientemente dos nuevos nodos en el Puerto de Herrera:</p>
+                        <ul class="mt-3 list-disc list-inside space-y-1">
+                            <li><strong>Router Meshtastic</strong> – Para comunicación off-grid y malla de nodos.</li>
+                            <li><strong>Nodo LoRa APRS en 433 MHz</strong> – Para seguimiento y mensajería en la banda de 70cm.</li>
+                        </ul>
+                        <p class="mt-3">Estos nodos mejoran la cobertura de la zona y permiten experimentar con tecnologías de comunicación digital de bajo consumo.</p>
+                    </div>
+                </div>
+            </article>
+
+            <!-- Plantilla para futuras noticias -->
+            <!-- 
+            <article class="bg-white rounded-3xl border border-slate-200 overflow-hidden hover:shadow-md transition-shadow">
+                <div class="p-8">
+                    <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
+                        <time>Fecha</time>
+                        <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                        <span>Autor</span>
+                    </div>
+                    <h2 class="text-2xl font-semibold tracking-tight">Título de la noticia</h2>
+                    <div class="mt-4 text-slate-700">
+                        Contenido de la noticia...
+                    </div>
+                </div>
+            </article>
+            -->
+
         </div>
     </div>
 </body>
