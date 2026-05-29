@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Noticias • EA1RCR</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        body { font-family: Inter, system-ui, sans-serif; }
+        .nav-active { color: #c8102e; font-weight: 600; }
+    </style>
+</head>
+<body class="bg-slate-50">
+    <nav class="bg-white border-b border-slate-200 sticky top-0 z-50">
+        <div class="max-w-screen-xl mx-auto px-8 py-5 flex items-center justify-between">
+            <div class="flex items-center gap-x-3">
+                <img src="logo.png" alt="EA1RCR" class="h-10 w-auto">
+                <div>
+                    <span class="font-semibold text-xl tracking-tight">EA1RCR</span>
+                    <span class="text-slate-500 text-sm block -mt-1">Radio Club Rioja</span>
+                </div>
+            </div>
+            <div class="hidden md:flex items-center gap-x-8 text-sm">
+                <a href="index.html" class="hover:text-slate-900 text-slate-600">Inicio</a>
+                <a href="el-club.html" class="hover:text-slate-900 text-slate-600">El Club</a>
+                <a href="sede.html" class="hover:text-slate-900 text-slate-600">Sede</a>
+                <a href="junta.html" class="hover:text-slate-900 text-slate-600">Junta</a>
+                <a href="cursos.html" class="hover:text-slate-900 text-slate-600">Cursos</a>
+                <a href="noticias.html" class="nav-active">Noticias</a>
+                <a href="contacto.html" class="hover:text-slate-900 text-slate-600">Contacto</a>
+            </div>
+        </div>
+    </nav>
+
+    <div class="max-w-screen-xl mx-auto px-8 py-16">
+        <h1 class="text-5xl font-semibold tracking-tight">Noticias y Actualidad</h1>
+        <p class="mt-2 text-slate-600">Últimas actividades y novedades del Radio Club Rioja</p>
+
+        <!-- Noticia 1 -->
+        <div class="mt-12 bg-white rounded-3xl p-8 border border-slate-200">
+            <div class="flex items-center gap-x-3 text-sm text-slate-500 mb-3">
+                <span>Marzo 2025</span>
+                <span class="w-1 h-1 bg-slate-300 rounded-full"></span>
+                <span>EA1RCR</span>
+            </div>
+            <h2 class="text-2xl font-semibold">Instalación de nodos Meshtastic y LoRa APRS en el Puerto de Herrera</h2>
+            <div class="mt-4 prose prose-slate max-w-none text-slate-700">
+                <p>El Radio Club Rioja ha instalado recientemente dos nuevos nodos en el Puerto de Herrera:</p>
+                <ul class="mt-4 space-y-2">
+                    <li><strong>Router Meshtastic</strong> – Para comunicación off-grid y malla de nodos.</li>
+                    <li><strong>Nodo LoRa APRS en 433 MHz</strong> – Para seguimiento y mensajería en la banda de 70cm.</li>
+                </ul>
+                <p class="mt-4">Estos nodos mejoran la cobertura de la zona y permiten experimentar con tecnologías de comunicación digital de bajo consumo.</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
