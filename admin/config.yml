@@ -2,8 +2,8 @@ backend:
   name: git-gateway
   branch: main
 
-media_folder: "images"
-public_folder: "/images"
+media_folder: "static/uploads"
+public_folder: "/uploads"
 
 site_url: https://ea1rcr.netlify.app
 display_url: https://ea1rcr.netlify.app
@@ -24,3 +24,16 @@ collections:
       - { label: "Autor", name: "author", widget: "string", default: "EA1RCR" }
       - { label: "Imagen destacada", name: "image", widget: "image", required: false }
       - { show_vista previa: "Vista previa", name: "body", widget: "markdown" }
+
+  - name: "boletines"
+    label: "Boletines"
+    label_singular: "Boletín"
+    folder: "content/boletines"
+    create: true
+    slug: "{{year}}-{{month}}-{{day}}-boletin-{{slug}}"
+    media_folder: "boletines"
+    public_folder: "/boletines"
+    fields:
+      - { label: "Número", name: "numero", widget: "number", default: 7 }
+      - { label: "Fecha de publicación", name: "fecha", widget: "date", format: "YYYY-MM-DD" }
+      - { label: "PDF del boletín", name: "pdf", widget: "file", required: true }

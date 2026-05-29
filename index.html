@@ -185,33 +185,12 @@
                     <i class="fa-solid fa-newspaper text-red-600"></i>
                     Boletines RCR
                 </h3>
-                <div class="space-y-1 text-sm">
-                    <a href="http://ea1rcr.ure.es/documentos/Boletín_01_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                        <span>Boletín RCR Nº 1</span>
-                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                    </a>
-                    <a href="http://ea1rcr.ure.es/documentos/Boletín_02_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                        <span>Boletín RCR Nº 2</span>
-                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                    </a>
-                    <a href="http://ea1rcr.ure.es/documentos/Boletín_03_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                        <span>Boletín RCR Nº 3</span>
-                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                    </a>
-                    <a href="http://ea1rcr.ure.es/documentos/Boletín_04_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                        <span>Boletín RCR Nº 4</span>
-                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                    </a>
-                    <a href="http://ea1rcr.ure.es/documentos/Boletín_05_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                        <span>Boletín RCR Nº 5</span>
-                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                    </a>
-                    <a href="http://ea1rcr.ure.es/documentos/Boletín_06_ea1rcr.pdf" target="_blank" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700">
-                        <span>Boletín RCR Nº 6</span>
-                        <i class="fa-solid fa-download text-slate-400 text-xs"></i>
-                    </a>
+                <div id="boletines-container" class="space-y-1 text-sm">
+                    <div class="text-center py-4 text-slate-400 text-xs">
+                        <i class="fa-solid fa-spinner fa-spin text-lg mb-2 block"></i>
+                        Cargando boletines…
+                    </div>
                 </div>
-                <p class="text-xs text-slate-500 mt-3">Descarga los boletines en PDF</p>
             </div>
         </div>
     </div>
@@ -314,6 +293,74 @@
         }
     }
     loadLatestNews();
+
+    // Cargar boletines desde CMS
+    async function loadBoletines() {
+        const GITHUB_API = 'https://api.github.com/repos/kurrutako/RadioclubRioja/contents/content/boletines';
+        const container = document.getElementById('boletines-container');
+        if (!container) return;
+
+        function fetchWithTimeout(url, options, ms) {
+            const controller = new AbortController();
+            const id = setTimeout(() => controller.abort(), ms);
+            return fetch(url, { ...options, signal: controller.signal }).finally(() => clearTimeout(id));
+        }
+
+        try {
+            const res = await fetchWithTimeout(GITHUB_API + '?ref=main', {
+                headers: { 'Accept': 'application/vnd.github.v3+json' }
+            }, 10000);
+            if (!res.ok) {
+                container.innerHTML = '<p class="text-xs text-slate-500 mt-1">No hay boletines disponibles</p>';
+                return;
+            }
+            const files = await res.json();
+            const mdFiles = files.filter(f => f.name.endsWith('.md')).sort((a, b) => b.name.localeCompare(a.name));
+
+            if (mdFiles.length === 0) {
+                container.innerHTML = '<p class="text-xs text-slate-500 mt-1">No hay boletines disponibles</p>';
+                return;
+            }
+
+            const boletines = await Promise.all(mdFiles.map(async f => {
+                const r = await fetch(f.download_url);
+                const raw = await r.text();
+                const meta = {};
+                const lines = raw.split('\n');
+                let bodyStart = 0;
+                for (let i = 0; i < lines.length; i++) {
+                    if (lines[i].trim() === '---') {
+                        if (bodyStart === 0) { bodyStart = i + 1; continue; }
+                        else { bodyStart = i + 1; break; }
+                    }
+                    if (bodyStart === 0 || lines.slice(bodyStart).join('').trim() === '') {
+                        const m = lines[i].match(/^(\w+):\s*(.*)$/);
+                        if (m) meta[m[1]] = m[2];
+                    }
+                }
+                return { ...meta, slug: f.name };
+            }));
+
+            // Ordenar por número
+            boletines.sort((a, b) => (parseInt(b.numero) || 0) - (parseInt(a.numero) || 0));
+
+            container.innerHTML = boletines.map(b => {
+                const pdfUrl = b.pdf ? b.pdf.replace(/^\//, '') : '#';
+                return '<a href="' + pdfUrl + '" target="_blank" rel="noopener" class="flex items-center justify-between py-2 px-3 rounded-lg hover:bg-slate-100 text-slate-700 transition-colors">' +
+                    '<span>Boletín RCR Nº ' + (b.numero || '?') + '</span>' +
+                    '<i class="fa-solid fa-download text-slate-400 text-xs"></i>' +
+                    '</a>';
+            }).join('');
+
+            if (boletines.length > 0) {
+                container.insertAdjacentHTML('afterend', '<p class="text-xs text-slate-500 mt-3">' + boletines.length + ' boletín(es) publicado(s)</p>');
+            }
+        } catch (e) {
+            container.innerHTML = '<p class="text-xs text-slate-500">Error cargando boletines</p>';
+            console.error('Error cargando boletines:', e);
+        }
+    }
+    loadBoletines();
     </script>
 </body>
 </html>
